@@ -1,0 +1,431 @@
+
+Matryca_LED.elf:     file format elf32-avr
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .text         0000024e  00000000  00000000  00000094  2**1
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  1 .data         00000004  00800060  0000024e  000002e2  2**0
+                  CONTENTS, ALLOC, LOAD, DATA
+  2 .bss          00000040  00800064  00800064  000002e6  2**0
+                  ALLOC
+  3 .stab         000006cc  00000000  00000000  000002e8  2**2
+                  CONTENTS, READONLY, DEBUGGING
+  4 .stabstr      000007a6  00000000  00000000  000009b4  2**0
+                  CONTENTS, READONLY, DEBUGGING
+
+Disassembly of section .text:
+
+00000000 <__vectors>:
+   0:	0c 94 2a 00 	jmp	0x54	; 0x54 <__ctors_end>
+   4:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+   8:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+   c:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  10:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  14:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  18:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  1c:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  20:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  24:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  28:	0c 94 c5 00 	jmp	0x18a	; 0x18a <__vector_10>
+  2c:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  30:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  34:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  38:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  3c:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  40:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  44:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  48:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  4c:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  50:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+
+00000054 <__ctors_end>:
+  54:	11 24       	eor	r1, r1
+  56:	1f be       	out	0x3f, r1	; 63
+  58:	cf e5       	ldi	r28, 0x5F	; 95
+  5a:	d8 e0       	ldi	r29, 0x08	; 8
+  5c:	de bf       	out	0x3e, r29	; 62
+  5e:	cd bf       	out	0x3d, r28	; 61
+
+00000060 <__do_copy_data>:
+  60:	10 e0       	ldi	r17, 0x00	; 0
+  62:	a0 e6       	ldi	r26, 0x60	; 96
+  64:	b0 e0       	ldi	r27, 0x00	; 0
+  66:	ee e4       	ldi	r30, 0x4E	; 78
+  68:	f2 e0       	ldi	r31, 0x02	; 2
+  6a:	02 c0       	rjmp	.+4      	; 0x70 <.do_copy_data_start>
+
+0000006c <.do_copy_data_loop>:
+  6c:	05 90       	lpm	r0, Z+
+  6e:	0d 92       	st	X+, r0
+
+00000070 <.do_copy_data_start>:
+  70:	a4 36       	cpi	r26, 0x64	; 100
+  72:	b1 07       	cpc	r27, r17
+  74:	d9 f7       	brne	.-10     	; 0x6c <.do_copy_data_loop>
+
+00000076 <__do_clear_bss>:
+  76:	10 e0       	ldi	r17, 0x00	; 0
+  78:	a4 e6       	ldi	r26, 0x64	; 100
+  7a:	b0 e0       	ldi	r27, 0x00	; 0
+  7c:	01 c0       	rjmp	.+2      	; 0x80 <.do_clear_bss_start>
+
+0000007e <.do_clear_bss_loop>:
+  7e:	1d 92       	st	X+, r1
+
+00000080 <.do_clear_bss_start>:
+  80:	a4 3a       	cpi	r26, 0xA4	; 164
+  82:	b1 07       	cpc	r27, r17
+  84:	e1 f7       	brne	.-8      	; 0x7e <.do_clear_bss_loop>
+  86:	0e 94 49 00 	call	0x92	; 0x92 <main>
+  8a:	0c 94 25 01 	jmp	0x24a	; 0x24a <_exit>
+
+0000008e <__bad_interrupt>:
+  8e:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
+
+00000092 <main>:
+#include <util/delay.h>
+
+#include "matryca.h"
+
+int main()
+{
+  92:	df 93       	push	r29
+  94:	cf 93       	push	r28
+  96:	cd b7       	in	r28, 0x3d	; 61
+  98:	de b7       	in	r29, 0x3e	; 62
+	InitSpi();	// inicjalizuje SPI
+  9a:	0e 94 5b 00 	call	0xb6	; 0xb6 <InitSpi>
+	sei();		// wlaczenie globalnego zezwolenia na przerwania
+  9e:	78 94       	sei
+
+	SendSpi(0b00100000); // kolumny katody
+  a0:	80 e2       	ldi	r24, 0x20	; 32
+  a2:	0e 94 77 00 	call	0xee	; 0xee <SendSpi>
+
+	SendSpi(0b10100000); // wiersze anody
+  a6:	80 ea       	ldi	r24, 0xA0	; 160
+  a8:	0e 94 77 00 	call	0xee	; 0xee <SendSpi>
+
+	EndSession("sd");
+  ac:	80 e6       	ldi	r24, 0x60	; 96
+  ae:	90 e0       	ldi	r25, 0x00	; 0
+  b0:	0e 94 8a 00 	call	0x114	; 0x114 <EndSession>
+  b4:	ff cf       	rjmp	.-2      	; 0xb4 <main+0x22>
+
+000000b6 <InitSpi>:
+#define LT_ON PORTB |= LT		// impuls LATCH (rosnie)
+#define LT_OFF PORTB &= ~LT		// impuls LATCH (maleje)
+
+
+void InitSpi()
+{
+  b6:	df 93       	push	r29
+  b8:	cf 93       	push	r28
+  ba:	cd b7       	in	r28, 0x3d	; 61
+  bc:	de b7       	in	r29, 0x3e	; 62
+	DDRB |= MOSI | SCK | LT ;	// ustawiamy piny SPI jako wyjscia (potrzebne do wlaczenia sprzetowego SPI)
+  be:	a7 e3       	ldi	r26, 0x37	; 55
+  c0:	b0 e0       	ldi	r27, 0x00	; 0
+  c2:	e7 e3       	ldi	r30, 0x37	; 55
+  c4:	f0 e0       	ldi	r31, 0x00	; 0
+  c6:	80 81       	ld	r24, Z
+  c8:	80 6b       	ori	r24, 0xB0	; 176
+  ca:	8c 93       	st	X, r24
+
+	SPCR |= (1<<SPE) | (1<<MSTR) | (1<<DORD);	// wlaczamy tryb SPI i w³¹czamy tryb master
+  cc:	ad e2       	ldi	r26, 0x2D	; 45
+  ce:	b0 e0       	ldi	r27, 0x00	; 0
+  d0:	ed e2       	ldi	r30, 0x2D	; 45
+  d2:	f0 e0       	ldi	r31, 0x00	; 0
+  d4:	80 81       	ld	r24, Z
+  d6:	80 67       	ori	r24, 0x70	; 112
+  d8:	8c 93       	st	X, r24
+
+	SPSR |= (1<<SPI2X);			// czestotliwosc SCK = fo/2
+  da:	ae e2       	ldi	r26, 0x2E	; 46
+  dc:	b0 e0       	ldi	r27, 0x00	; 0
+  de:	ee e2       	ldi	r30, 0x2E	; 46
+  e0:	f0 e0       	ldi	r31, 0x00	; 0
+  e2:	80 81       	ld	r24, Z
+  e4:	81 60       	ori	r24, 0x01	; 1
+  e6:	8c 93       	st	X, r24
+
+
+}
+  e8:	cf 91       	pop	r28
+  ea:	df 91       	pop	r29
+  ec:	08 95       	ret
+
+000000ee <SendSpi>:
+
+
+void SendSpi(uint8_t bajt)
+{
+  ee:	df 93       	push	r29
+  f0:	cf 93       	push	r28
+  f2:	0f 92       	push	r0
+  f4:	cd b7       	in	r28, 0x3d	; 61
+  f6:	de b7       	in	r29, 0x3e	; 62
+  f8:	89 83       	std	Y+1, r24	; 0x01
+
+	SPDR = bajt;	// rejest to wsadzenia calego bajtu
+  fa:	ef e2       	ldi	r30, 0x2F	; 47
+  fc:	f0 e0       	ldi	r31, 0x00	; 0
+  fe:	89 81       	ldd	r24, Y+1	; 0x01
+ 100:	80 83       	st	Z, r24
+
+	while(! (SPSR & (1<<SPIF) ) );	// oczekuje na flage zakonczenia przesylania
+ 102:	ee e2       	ldi	r30, 0x2E	; 46
+ 104:	f0 e0       	ldi	r31, 0x00	; 0
+ 106:	80 81       	ld	r24, Z
+ 108:	88 23       	and	r24, r24
+ 10a:	dc f7       	brge	.-10     	; 0x102 <SendSpi+0x14>
+
+
+}
+ 10c:	0f 90       	pop	r0
+ 10e:	cf 91       	pop	r28
+ 110:	df 91       	pop	r29
+ 112:	08 95       	ret
+
+00000114 <EndSession>:
+
+
+void EndSession()
+{
+ 114:	df 93       	push	r29
+ 116:	cf 93       	push	r28
+ 118:	0f 92       	push	r0
+ 11a:	cd b7       	in	r28, 0x3d	; 61
+ 11c:	de b7       	in	r29, 0x3e	; 62
+	LT_ON;
+ 11e:	a8 e3       	ldi	r26, 0x38	; 56
+ 120:	b0 e0       	ldi	r27, 0x00	; 0
+ 122:	e8 e3       	ldi	r30, 0x38	; 56
+ 124:	f0 e0       	ldi	r31, 0x00	; 0
+ 126:	80 81       	ld	r24, Z
+ 128:	80 61       	ori	r24, 0x10	; 16
+ 12a:	8c 93       	st	X, r24
+	// tutaj moze wartoby bylo zrobic _delay_us(1); aby sygnal zdazyl dotrzec
+	LT_OFF;
+ 12c:	a8 e3       	ldi	r26, 0x38	; 56
+ 12e:	b0 e0       	ldi	r27, 0x00	; 0
+ 130:	e8 e3       	ldi	r30, 0x38	; 56
+ 132:	f0 e0       	ldi	r31, 0x00	; 0
+ 134:	80 81       	ld	r24, Z
+ 136:	8f 7e       	andi	r24, 0xEF	; 239
+ 138:	8c 93       	st	X, r24
+	for(uint8_t i=0 ; i<= LICZBA_REJESTROW_DLA_SPI ; ++i )
+ 13a:	19 82       	std	Y+1, r1	; 0x01
+ 13c:	06 c0       	rjmp	.+12     	; 0x14a <EndSession+0x36>
+		SPDR = 0;	//ustawiam stan niski na MOSI pod koniec ale nie laczuje zeby nie wyszlo mi na piny
+ 13e:	ef e2       	ldi	r30, 0x2F	; 47
+ 140:	f0 e0       	ldi	r31, 0x00	; 0
+ 142:	10 82       	st	Z, r1
+void EndSession()
+{
+	LT_ON;
+	// tutaj moze wartoby bylo zrobic _delay_us(1); aby sygnal zdazyl dotrzec
+	LT_OFF;
+	for(uint8_t i=0 ; i<= LICZBA_REJESTROW_DLA_SPI ; ++i )
+ 144:	89 81       	ldd	r24, Y+1	; 0x01
+ 146:	8f 5f       	subi	r24, 0xFF	; 255
+ 148:	89 83       	std	Y+1, r24	; 0x01
+ 14a:	89 81       	ldd	r24, Y+1	; 0x01
+ 14c:	83 30       	cpi	r24, 0x03	; 3
+ 14e:	b8 f3       	brcs	.-18     	; 0x13e <EndSession+0x2a>
+		SPDR = 0;	//ustawiam stan niski na MOSI pod koniec ale nie laczuje zeby nie wyszlo mi na piny
+
+
+}
+ 150:	0f 90       	pop	r0
+ 152:	cf 91       	pop	r28
+ 154:	df 91       	pop	r29
+ 156:	08 95       	ret
+
+00000158 <InitTimer>:
+
+
+void InitTimer()
+{
+ 158:	df 93       	push	r29
+ 15a:	cf 93       	push	r28
+ 15c:	cd b7       	in	r28, 0x3d	; 61
+ 15e:	de b7       	in	r29, 0x3e	; 62
+	// ustawiam tryb CTC oraz prescaler 8,000,000 / 64
+	TCCR0 |= (1<<WGM01) | (1<<CS01) | (1<<CS00);
+ 160:	a3 e5       	ldi	r26, 0x53	; 83
+ 162:	b0 e0       	ldi	r27, 0x00	; 0
+ 164:	e3 e5       	ldi	r30, 0x53	; 83
+ 166:	f0 e0       	ldi	r31, 0x00	; 0
+ 168:	80 81       	ld	r24, Z
+ 16a:	8b 60       	ori	r24, 0x0B	; 11
+ 16c:	8c 93       	st	X, r24
+
+	OCR0 = 39;	// licznik impulsow
+ 16e:	ec e5       	ldi	r30, 0x5C	; 92
+ 170:	f0 e0       	ldi	r31, 0x00	; 0
+ 172:	87 e2       	ldi	r24, 0x27	; 39
+ 174:	80 83       	st	Z, r24
+
+	TIMSK |= (1<<OCIE0);	// Timer/Counter0 Compare Match interrupt is enabled
+ 176:	a9 e5       	ldi	r26, 0x59	; 89
+ 178:	b0 e0       	ldi	r27, 0x00	; 0
+ 17a:	e9 e5       	ldi	r30, 0x59	; 89
+ 17c:	f0 e0       	ldi	r31, 0x00	; 0
+ 17e:	80 81       	ld	r24, Z
+ 180:	82 60       	ori	r24, 0x02	; 2
+ 182:	8c 93       	st	X, r24
+}
+ 184:	cf 91       	pop	r28
+ 186:	df 91       	pop	r29
+ 188:	08 95       	ret
+
+0000018a <__vector_10>:
+
+ISR(TIMER0_COMP_vect)
+{
+ 18a:	1f 92       	push	r1
+ 18c:	0f 92       	push	r0
+ 18e:	0f b6       	in	r0, 0x3f	; 63
+ 190:	0f 92       	push	r0
+ 192:	11 24       	eor	r1, r1
+ 194:	df 93       	push	r29
+ 196:	cf 93       	push	r28
+ 198:	cd b7       	in	r28, 0x3d	; 61
+ 19a:	de b7       	in	r29, 0x3e	; 62
+
+
+
+}
+ 19c:	cf 91       	pop	r28
+ 19e:	df 91       	pop	r29
+ 1a0:	0f 90       	pop	r0
+ 1a2:	0f be       	out	0x3f, r0	; 63
+ 1a4:	0f 90       	pop	r0
+ 1a6:	1f 90       	pop	r1
+ 1a8:	18 95       	reti
+
+000001aa <wyczyscTablicePikseli>:
+
+
+void wyczyscTablicePikseli()
+{
+ 1aa:	df 93       	push	r29
+ 1ac:	cf 93       	push	r28
+ 1ae:	00 d0       	rcall	.+0      	; 0x1b0 <wyczyscTablicePikseli+0x6>
+ 1b0:	cd b7       	in	r28, 0x3d	; 61
+ 1b2:	de b7       	in	r29, 0x3e	; 62
+	for(uint8_t i=0 ; i <= LICZBA_PIKSELI_NA_OSI_X ; ++i)
+ 1b4:	1a 82       	std	Y+2, r1	; 0x02
+ 1b6:	1e c0       	rjmp	.+60     	; 0x1f4 <wyczyscTablicePikseli+0x4a>
+	{
+		for(uint8_t j=0 ; i <= LICZBA_PIKSELI_NA_OSI_X ; ++j)
+ 1b8:	19 82       	std	Y+1, r1	; 0x01
+ 1ba:	16 c0       	rjmp	.+44     	; 0x1e8 <wyczyscTablicePikseli+0x3e>
+			tablicaPikseliMatrycy[i][j] = 0;
+ 1bc:	8a 81       	ldd	r24, Y+2	; 0x02
+ 1be:	48 2f       	mov	r20, r24
+ 1c0:	50 e0       	ldi	r21, 0x00	; 0
+ 1c2:	89 81       	ldd	r24, Y+1	; 0x01
+ 1c4:	28 2f       	mov	r18, r24
+ 1c6:	30 e0       	ldi	r19, 0x00	; 0
+ 1c8:	ca 01       	movw	r24, r20
+ 1ca:	88 0f       	add	r24, r24
+ 1cc:	99 1f       	adc	r25, r25
+ 1ce:	88 0f       	add	r24, r24
+ 1d0:	99 1f       	adc	r25, r25
+ 1d2:	88 0f       	add	r24, r24
+ 1d4:	99 1f       	adc	r25, r25
+ 1d6:	82 0f       	add	r24, r18
+ 1d8:	93 1f       	adc	r25, r19
+ 1da:	fc 01       	movw	r30, r24
+ 1dc:	ec 59       	subi	r30, 0x9C	; 156
+ 1de:	ff 4f       	sbci	r31, 0xFF	; 255
+ 1e0:	10 82       	st	Z, r1
+
+void wyczyscTablicePikseli()
+{
+	for(uint8_t i=0 ; i <= LICZBA_PIKSELI_NA_OSI_X ; ++i)
+	{
+		for(uint8_t j=0 ; i <= LICZBA_PIKSELI_NA_OSI_X ; ++j)
+ 1e2:	89 81       	ldd	r24, Y+1	; 0x01
+ 1e4:	8f 5f       	subi	r24, 0xFF	; 255
+ 1e6:	89 83       	std	Y+1, r24	; 0x01
+ 1e8:	8a 81       	ldd	r24, Y+2	; 0x02
+ 1ea:	89 30       	cpi	r24, 0x09	; 9
+ 1ec:	38 f3       	brcs	.-50     	; 0x1bc <wyczyscTablicePikseli+0x12>
+}
+
+
+void wyczyscTablicePikseli()
+{
+	for(uint8_t i=0 ; i <= LICZBA_PIKSELI_NA_OSI_X ; ++i)
+ 1ee:	8a 81       	ldd	r24, Y+2	; 0x02
+ 1f0:	8f 5f       	subi	r24, 0xFF	; 255
+ 1f2:	8a 83       	std	Y+2, r24	; 0x02
+ 1f4:	8a 81       	ldd	r24, Y+2	; 0x02
+ 1f6:	89 30       	cpi	r24, 0x09	; 9
+ 1f8:	f8 f2       	brcs	.-66     	; 0x1b8 <wyczyscTablicePikseli+0xe>
+	{
+		for(uint8_t j=0 ; i <= LICZBA_PIKSELI_NA_OSI_X ; ++j)
+			tablicaPikseliMatrycy[i][j] = 0;
+
+	}
+}
+ 1fa:	0f 90       	pop	r0
+ 1fc:	0f 90       	pop	r0
+ 1fe:	cf 91       	pop	r28
+ 200:	df 91       	pop	r29
+ 202:	08 95       	ret
+
+00000204 <ustawPiksel>:
+
+
+
+void ustawPiksel(uint8_t x, uint8_t y, uint8_t nowy_stan)
+{
+ 204:	df 93       	push	r29
+ 206:	cf 93       	push	r28
+ 208:	00 d0       	rcall	.+0      	; 0x20a <ustawPiksel+0x6>
+ 20a:	0f 92       	push	r0
+ 20c:	cd b7       	in	r28, 0x3d	; 61
+ 20e:	de b7       	in	r29, 0x3e	; 62
+ 210:	89 83       	std	Y+1, r24	; 0x01
+ 212:	6a 83       	std	Y+2, r22	; 0x02
+ 214:	4b 83       	std	Y+3, r20	; 0x03
+	tablicaPikseliMatrycy[x][y] = nowy_stan;
+ 216:	89 81       	ldd	r24, Y+1	; 0x01
+ 218:	48 2f       	mov	r20, r24
+ 21a:	50 e0       	ldi	r21, 0x00	; 0
+ 21c:	8a 81       	ldd	r24, Y+2	; 0x02
+ 21e:	28 2f       	mov	r18, r24
+ 220:	30 e0       	ldi	r19, 0x00	; 0
+ 222:	ca 01       	movw	r24, r20
+ 224:	88 0f       	add	r24, r24
+ 226:	99 1f       	adc	r25, r25
+ 228:	88 0f       	add	r24, r24
+ 22a:	99 1f       	adc	r25, r25
+ 22c:	88 0f       	add	r24, r24
+ 22e:	99 1f       	adc	r25, r25
+ 230:	82 0f       	add	r24, r18
+ 232:	93 1f       	adc	r25, r19
+ 234:	fc 01       	movw	r30, r24
+ 236:	ec 59       	subi	r30, 0x9C	; 156
+ 238:	ff 4f       	sbci	r31, 0xFF	; 255
+ 23a:	8b 81       	ldd	r24, Y+3	; 0x03
+ 23c:	80 83       	st	Z, r24
+}
+ 23e:	0f 90       	pop	r0
+ 240:	0f 90       	pop	r0
+ 242:	0f 90       	pop	r0
+ 244:	cf 91       	pop	r28
+ 246:	df 91       	pop	r29
+ 248:	08 95       	ret
+
+0000024a <_exit>:
+ 24a:	f8 94       	cli
+
+0000024c <__stop_program>:
+ 24c:	ff cf       	rjmp	.-2      	; 0x24c <__stop_program>
